@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -15,6 +16,8 @@ public class Ventana {
     Clinica cl=new Clinica();
 
     public Ventana() {
+        SpinnerNumberModel snm = new SpinnerNumberModel(50, 1, 100, 2);
+        spiPrioridad.setModel(snm);
         btnAgregar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -22,17 +25,19 @@ public class Ventana {
                 String nombre = txtNombre.getText();
                 String sintomas = txtSintomas.getText();
                 Paciente pa = new Paciente(p, nombre, sintomas);
-
+                cl.encolar(pa);
+                llenarTextArea();
             }
         });
+
+        /**Boton atender**/
         btnAtender.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-
-
-                    
-
+                    Paciente elimiar = cl.desencolar();
+                    JOptionPane.showMessageDialog(null, "Paciente atendido" + elimiar.toString());
+                    llenarTextArea();
 
                 } catch (Exception ex) {
                   JOptionPane.showMessageDialog(null,
@@ -42,6 +47,13 @@ public class Ventana {
         });
     }
 
+    public void llenarTextArea(){
+        txtListado.setText("");
+        ArrayList<Paciente> listaOrde = cl.listarPacientes();
+        Collections.sort(listaOrde);
+        for(Paciente paciente : listaOrde)
+            txtListado.append(paciente.toString());
+    }
     public static void main(String[] args) {
         JFrame frame = new JFrame("Ventana");
         frame.setContentPane(new Ventana().principal);

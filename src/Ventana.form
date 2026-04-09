@@ -54,7 +54,9 @@
             <preferred-size width="150" height="50"/>
           </grid>
         </constraints>
-        <properties/>
+        <properties>
+          <font size="18"/>
+        </properties>
       </component>
       <component id="57b6c" class="javax.swing.JSpinner" binding="spiPrioridad">
         <constraints>
